@@ -5,10 +5,10 @@ export default function GoodsItem({ item, onEdit, onDelete }) {
       <div className="itemMain">
         <div className="itemId">#{item.id}</div>
         <div className="itemName">{item.name}</div>
-        <div className="itemCategory">{item.category}</div>  {/* новое */}
-        <div className="itemDescription">{item.description}</div>  {/* новое */}
+        <div className="itemCategory">{item.category}</div>  
+        <div className="itemDescription">{item.description}</div>  
         <div className="itemPrice">{item.price} руб</div>
-        <div className="itemStock">В наличии: {item.stock} шт</div>  {/* новое */}
+        <div className="itemStock">В наличии: {item.stock} шт</div>  
       </div>
       <div className="itemActions">
         <button className="btn" onClick={() => onEdit(item)}>

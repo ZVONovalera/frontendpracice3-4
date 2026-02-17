@@ -30,7 +30,7 @@ export default function GoodsModal({
     const trimmedDesc = description.trim();
     const parsedPrice = Number(price);
     const parsedStock = Number(stock); 
-    if (!trimmed || !trimmedCategory || !trimmedDesc) { 
+    if (!trimmed || !trimmedCategory || !trimmedDesc) { // предупреждения/ограничения
       alert("Заполните все поля");
       return;
     }
@@ -47,7 +47,7 @@ export default function GoodsModal({
       stock: parsedStock,
     });
   };
-  return (
+  return ( // модальные окн
     <div className="backdrop" onMouseDown={onClose}>
       <div
         className="modal"

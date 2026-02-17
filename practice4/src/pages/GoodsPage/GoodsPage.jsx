@@ -11,10 +11,10 @@ export default function GoodsPage() {
   const [modalMode, setModalMode] = useState("create");
   const [editingitem, setEditingItem] = useState(null);
 
-  useEffect(() => {
+  useEffect(() => { // хук для загрузки страницы
     loadgoods();
   }, []);
-  const loadgoods = async () => {
+  const loadgoods = async () => { // загрузка страницы
     try {
       setLoading(true);
       const data = await api.getGoods();
@@ -28,7 +28,7 @@ export default function GoodsPage() {
   };
 
   
-  const openCreate = () => {
+  const openCreate = () => { // функции модальных окон
     setModalMode("create");
     setEditingItem(null);
     setModalOpen(true);
@@ -42,7 +42,7 @@ export default function GoodsPage() {
     setModalOpen(false);
     setEditingItem(null);
   };
-  const handleDelete = async (id) => {
+  const handleDelete = async (id) => { //функция ручного удаления товара
     const ok = window.confirm("Удалить товар?");
     if (!ok) return;
     try {
@@ -53,7 +53,7 @@ export default function GoodsPage() {
       alert("Ошибка удаления товара");
     }
   };
-  const handleSubmitModal = async (payload) => {
+  const handleSubmitModal = async (payload) => { // функция создания изменения товара товара 
     try {
       if (modalMode === "create") {
         const newItem = await api.createItem(payload);
