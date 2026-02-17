@@ -1,12 +1,12 @@
 import axios from "axios";
-const apiClient = axios.create({
+const apiClient = axios.create({ //axios клент для I/O запросов
   baseURL: "http://localhost:3000/api",
   headers: {
     "Content-Type": "application/json",
     accept: "application/json",
   },
 });
-export const api = {
+export const api = { 
   createItem: async (item) => {
     let response = await apiClient.post("/goods", item);
     return response.data;

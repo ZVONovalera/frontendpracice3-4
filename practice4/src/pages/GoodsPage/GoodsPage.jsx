@@ -27,10 +27,7 @@ export default function GoodsPage() {
     }
   };
 
-  const nextId = useMemo(() => {
-    const maxId = goods.reduce((m, u) => Math.max(m, u.id), 0);
-    return maxId + 1;
-  }, [goods]);
+  
   const openCreate = () => {
     setModalMode("create");
     setEditingItem(null);

@@ -3,7 +3,7 @@ const { nanoid } = require("nanoid");
 const app = express();
 const port = 3000;
 
-let goods = [
+let goods = [  // Массив данных для выдачи
   { 
     id: nanoid(6), 
     name: "фен", 
@@ -85,7 +85,7 @@ let goods = [
     stock: 14
   }
 ];
-app.use(express.json());
+app.use(express.json()); //мидлвейр(логгеры, джсон конвертеры)
 app.use((req, res, next) => {
   res.on("finish", () => {
     console.log(`[${new Date().toISOString()}] [${req.method}]
@@ -108,7 +108,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
-function findGoodsItemOr404(id, res) {
+function findGoodsItemOr404(id, res) { //функция для проверки наличия предмета
   const item = goods.find((u) => u.id === id);
   if (!item) {
     res.status(404).json({ error: "Item not found" });
@@ -116,12 +116,12 @@ function findGoodsItemOr404(id, res) {
   }
   return item;
 }
-app.get("/", (req, res) => {
+app.get("/", (req, res) => { // эндпоинт по адресу /
   res.send("Страница товаров");
 });
 
-app.post("/api/goods", (req, res) => {
-  const { name, category, description, price, stock } = req.body;  // все поля!
+app.post("/api/goods", (req, res) => { //пост эндпоинт по адресу /api/goods
+  const { name, category, description, price, stock } = req.body;  
   const newGoods = {
     id: nanoid(6),
     name,
@@ -133,16 +133,16 @@ app.post("/api/goods", (req, res) => {
   goods.push(newGoods);
   res.status(201).json(newGoods);
 });
-app.get("/api/goods", (req, res) => {
+app.get("/api/goods", (req, res) => { //гет эндпоинт по адресу /api/goods
   res.json(goods);
 });
-app.get("/api/goods/:id", (req, res) => {
+app.get("/api/goods/:id", (req, res) => {//гет эндпоинт по адресу /api/goods (конкетный товар)
   const id = req.params.id;
   const item = findGoodsItemOr404(id, res);
   if (!item) return;
   res.json(item);
 });
-app.patch("/api/goods/:id", (req, res) => {
+app.patch("/api/goods/:id", (req, res) => { //обновление эндпоинт по адресу /api/goods (конкетный товар)
   const id = req.params.id;
   const item = findGoodsItemOr404(id, res);
   if (!item) return;
@@ -157,7 +157,7 @@ app.patch("/api/goods/:id", (req, res) => {
   
   res.json(item);
 });
-app.delete("/api/goods/:id", (req, res) => {
+app.delete("/api/goods/:id", (req, res) => { //удаление эндпоинт по адресу /api/goods (конкетный товар)
   const id = req.params.id;
   const exists = goods.some((u) => u.id === id);
   if (!exists) return res.status(404).json({ error: "Item not found" });
@@ -165,10 +165,10 @@ app.delete("/api/goods/:id", (req, res) => {
   goods = goods.filter((u) => u.id !== req.params.id);
   res.status(204).send();
 });
-app.use((req, res) => {
+app.use((req, res) => { 
   res.status(404).json({ error: "Not found" });
 });
-app.use((err, req, res, next) => {
+app.use((err, req, res, next) => { // обработчик ошибок
   console.error("Unhandled error:", err);
   res.status(500).json({ error: "Internal server error" });
 });
