@@ -2,6 +2,7 @@ import React from "react";
 export default function GoodsItem({ item, onEdit, onDelete }) {
   return (
     <div className="itemRow">
+      <img src={item.imageUrl} width="300" alt={item.name} />
       <div className="itemMain">
         <div className="itemId">#{item.id}</div>
         <div className="itemName">{item.name}</div>

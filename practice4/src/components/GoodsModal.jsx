@@ -8,6 +8,7 @@ export default function GoodsModal({
 }) 
 {
   const [name, setName] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -19,34 +20,49 @@ export default function GoodsModal({
     setDescription(initialItem?.description ?? "");
     setPrice(initialItem?.price != null ? String(initialItem.price) : "");
     setStock(initialItem?.stock != null ? String(initialItem.stock) : "");
+    setImageUrl(initialItem?.imageUrl ?? "");
   }, [open, initialItem]);
   if (!open) return null;
   const title =
     mode === "edit" ? "Редактирование товара" : "Создание товара";
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const trimmed = name.trim();
-    const trimmedCategory = category.trim();  
-    const trimmedDesc = description.trim();
-    const parsedPrice = Number(price);
-    const parsedStock = Number(stock); 
-    if (!trimmed || !trimmedCategory || !trimmedDesc) { // предупреждения/ограничения
-      alert("Заполните все поля");
-      return;
-    }
-    if (!Number.isFinite(parsedPrice) || parsedPrice < 0 || parsedPrice > 9999999) {
-      alert("Введите корректный ценник (0–9999999)");
-      return;
-    }
-    onSubmit({
-      id: initialItem?.id,
-      name: trimmed,
-      category: trimmedCategory, 
-      description: trimmedDesc,
-      price: parsedPrice,
-      stock: parsedStock,
-    });
-  };
+  e.preventDefault();
+  
+  const trimmed = name.trim();
+  const trimmedCategory = category.trim();  
+  const trimmedDesc = description.trim();
+  const trimmedImageUrl = imageUrl.trim();
+  const parsedPrice = Number(price);
+  const parsedStock = Number(stock);
+
+  
+  if (!trimmed || !trimmedCategory || !trimmedDesc || !trimmedImageUrl) {
+    alert("Заполните все поля: название, категория, описание и URL изображения");
+    return;
+  }
+
+  
+  if (!Number.isFinite(parsedPrice) || parsedPrice < 0 || parsedPrice > 9999999) {
+    alert("Введите корректный ценник (0–9999999)");
+    return;
+  }
+
+cd
+  if (!Number.isFinite(parsedStock) || parsedStock < 0) {
+    alert("Введите корректное количество на складе");
+    return;
+  }
+
+  onSubmit({
+    id: initialItem?.id,
+    name: trimmed,
+    category: trimmedCategory,
+    description: trimmedDesc,
+    price: parsedPrice,
+    stock: parsedStock,
+    imageUrl: trimmedImageUrl,
+  });
+};
   return ( // модальные окн
     <div className="backdrop" onMouseDown={onClose}>
       <div
@@ -80,6 +96,15 @@ export default function GoodsModal({
               onChange={(e) => setPrice(e.target.value)}
               placeholder="Например, 100"
               inputMode="numeric"
+            />
+          </label>
+          <label className="label">
+            URL изображения
+            <input
+              className="input"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="https://example.com/image.jpg"
             />
           </label>
           <label className="label">
