@@ -47,7 +47,7 @@ export default function GoodsModal({
     return;
   }
 
-cd
+
   if (!Number.isFinite(parsedStock) || parsedStock < 0) {
     alert("Введите корректное количество на складе");
     return;

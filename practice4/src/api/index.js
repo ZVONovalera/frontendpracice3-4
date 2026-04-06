@@ -96,6 +96,27 @@ export const api = {
     localStorage.removeItem("accessToken");
   },
 
+  // Users (только для администратора)
+  getUsers: async () => {
+    const response = await apiClient.get("/users");
+    return response.data;
+  },
+
+  getUserById: async (id) => {
+    const response = await apiClient.get(`/users/${id}`);
+    return response.data;
+  },
+
+  updateUser: async (id, userData) => {
+    const response = await apiClient.put(`/users/${id}`, userData);
+    return response.data;
+  },
+
+  blockUser: async (id) => {
+    const response = await apiClient.delete(`/users/${id}`);
+    return response.data;
+  },
+
   // Товары
   createItem: async (item) => {
     const response = await apiClient.post("/products", item);

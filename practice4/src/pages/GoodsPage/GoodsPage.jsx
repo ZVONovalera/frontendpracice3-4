@@ -86,7 +86,7 @@ export default function GoodsPage() {
       } else {
         const updatedItem = await api.updateItem(payload.id, payload);
         setGoods((prev) =>
-          prev.map((u) => (u.id === payload.id ? updatedItem : u))
+          prev.map((u) => (u.id === payload.id ? updatedItem : u)),
         );
       }
       closeModal();
@@ -117,7 +117,15 @@ export default function GoodsPage() {
             <span style={{ marginRight: "1rem" }}>
               {user.username} ({user.role})
             </span>
-            <button className="btn" onClick={handleLogout}>
+            {user?.role === "admin" && (
+              <button
+                className="btn btn--admin"
+                onClick={() => navigate("/admin")}
+              >
+                Админ панель
+              </button>
+            )}
+            <button className="btn btn--danger" onClick={handleLogout}>
               Выйти
             </button>
           </div>

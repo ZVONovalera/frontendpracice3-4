@@ -4,7 +4,7 @@ import GoodsPage from "./pages/GoodsPage/GoodsPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import "./index.css";
-
+import AdminPage from "./pages/AdminPage";
 function App() {
   return (
     <BrowserRouter>
@@ -13,6 +13,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/" element={<GoodsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </BrowserRouter>
   );

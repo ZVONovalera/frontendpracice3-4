@@ -7,8 +7,9 @@ const swaggerUi = require("swagger-ui-express");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
-
+const path = require('path');
 app.use(express.json());
+
 
 // ========== КОНСТАНТЫ ==========
 const JWT_SECRET = "access_secret";
@@ -186,8 +187,8 @@ const swaggerOptions = {
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // ========== MIDDLEWARE ==========
 function authMiddleware(req, res, next) {
   const header = req.headers.authorization || "";
@@ -652,7 +653,7 @@ app.post("/api/products", authMiddleware, checkRole(ROLES.SELLER, ROLES.ADMIN), 
   
   if (!name || !category || price === undefined || stock === undefined || !description || !imageUrl) {
     return res.status(400).json({
-      error: "name, category, description, price, stock and imageUrl are required",
+      error: "name, category, description, price, stock and imageUrl are required", 
     });
   }
   
@@ -679,7 +680,7 @@ app.post("/api/products", authMiddleware, checkRole(ROLES.SELLER, ROLES.ADMIN), 
  *       200:
  *         description: Список товаров
  */
-app.get("/api/products", (req, res) => {
+app.get("/api/products",authMiddleware, (req, res) => {
   res.json(goods);
 });
 
@@ -701,7 +702,7 @@ app.get("/api/products", (req, res) => {
  *       404:
  *         description: Товар не найден
  */
-app.get("/api/products/:id", (req, res) => {
+app.get("/api/products/:id", authMiddleware, (req, res) => {
   const id = req.params.id;
   const item = findGoodsItemOr404(id, res);
   if (!item) return;
